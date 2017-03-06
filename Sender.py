@@ -1004,11 +1004,11 @@ class Sender:
 								CNC.vars["mx"] = float(word[1])
 								CNC.vars["my"] = float(word[2])
 								CNC.vars["mz"] = float(word[3])
-								CNC.vars["me"] = float(word[4])
+								CNC.vars["mc"] = float(word[4])
 								CNC.vars["wx"] = round(CNC.vars["mx"]-CNC.vars["wcox"], CNC.digits)
 								CNC.vars["wy"] = round(CNC.vars["my"]-CNC.vars["wcoy"], CNC.digits)
 								CNC.vars["wz"] = round(CNC.vars["mz"]-CNC.vars["wcoz"], CNC.digits)
-								CNC.vars["we"] = round(CNC.vars["me"]-CNC.vars["wcoe"], CNC.digits)
+								CNC.vars["wc"] = round(CNC.vars["mc"]-CNC.vars["wcoc"], CNC.digits)
 								self._posUpdate = True
 							elif word[0] == "F":
 								CNC.vars["curfeed"] = float(word[1])
@@ -1026,7 +1026,7 @@ class Sender:
 								CNC.vars["wcox"] = float(word[1])
 								CNC.vars["wcoy"] = float(word[2])
 								CNC.vars["wcoz"] = float(word[3])
-								CNC.vars["wcoe"] = float(word[4])
+								CNC.vars["wcoc"] = float(word[4])
 
 						# Machine is Idle buffer is empty stop waiting and go on
 						if wait and not cline and fields[0]=="Idle":
@@ -1039,7 +1039,7 @@ class Sender:
 						CNC.vars["wx"] = float(pat.group(6))
 						CNC.vars["wy"] = float(pat.group(7))
 						CNC.vars["wz"] = float(pat.group(8))
-						CNC.vars["we"] = float(pat.group(9) or 0.0)
+						CNC.vars["wc"] = float(pat.group(9) or 0.0)
 						self._posUpdate = True
 						if pat.group(1) != "Hold" and self._msg:
 							self._msg = None
@@ -1063,15 +1063,15 @@ class Sender:
 							CNC.vars["mx"] = float(pat.group(2))
 							CNC.vars["my"] = float(pat.group(3))
 							CNC.vars["mz"] = float(pat.group(4))
-							CNC.vars["me"] = float(pat.group(5) or 0.0)
+							CNC.vars["mc"] = float(pat.group(5) or 0.0)
 							CNC.vars["wx"] = float(pat.group(6))
 							CNC.vars["wy"] = float(pat.group(7))
 							CNC.vars["wz"] = float(pat.group(8))
-							CNC.vars["we"] = float(pat.group(9) or 0.0)
+							CNC.vars["wc"] = float(pat.group(9) or 0.0)
 							CNC.vars["wcox"] = CNC.vars["mx"] - CNC.vars["wx"]
 							CNC.vars["wcoy"] = CNC.vars["my"] - CNC.vars["wy"]
 							CNC.vars["wcoz"] = CNC.vars["mz"] - CNC.vars["wz"]
-							CNC.vars["wcoe"] = CNC.vars["me"] - CNC.vars["we"]
+							CNC.vars["wcoc"] = CNC.vars["mc"] - CNC.vars["wc"]
 							self._posUpdate = True
 							if pat.group(1)[:4] != "Hold" and self._msg:
 								self._msg = None
@@ -1105,7 +1105,7 @@ class Sender:
 							CNC.vars["prbx"] = float(pat.group(2))
 							CNC.vars["prby"] = float(pat.group(3))
 							CNC.vars["prbz"] = float(pat.group(4))
-							CNC.vars["prbe"] = float(pat.group(5) or 0.0)
+							CNC.vars["prbc"] = float(pat.group(5) or 0.0)
 							"""
 							#if self.running:
 							self.gcode.probe.add(
