@@ -363,8 +363,8 @@ class Application(Toplevel,Sender):
 		self.bind('<Home>',		self.home)
 		self.bind('<Prior>',		self.control.moveZup)
 		self.bind('<Next>',		self.control.moveZdown)
-		self.bind('<Home>',		self.control.moveEdown)
-		self.bind('<End>',		self.control.moveEup)
+		self.bind('<Home>',		self.control.moveCdown)
+		self.bind('<End>',		self.control.moveCup)
 
 		if self._swapKeyboard == 1:
 			self.bind('<Right>',		self.control.moveYup)
@@ -385,8 +385,8 @@ class Application(Toplevel,Sender):
 		try:
 			#self.bind('<KP_Home>',	self.home)
 			#self.bind('<KP_End>',	self.control.go2origin)
-			self.bind('<KP_Home>',	self.control.moveEup)
-			self.bind('<KP_End>',	self.control.moveEdown)
+			self.bind('<KP_Home>',	self.control.moveCup)
+			self.bind('<KP_End>',	self.control.moveCdown)
 			self.bind('<KP_Prior>',	self.control.moveZup)
 			self.bind('<KP_Next>',	self.control.moveZdown)
 
