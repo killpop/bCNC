@@ -659,11 +659,11 @@ class CNC:
 			"wx"         : 0.0,
 			"wy"         : 0.0,
 			"wz"         : 0.0,
-			"we"         : 0.0,
+			"wc"         : 0.0,
 			"mx"         : 0.0,
 			"my"         : 0.0,
 			"mz"         : 0.0,
-			"me"         : 0.0,
+			"mc"         : 0.0,
 			"wcox"       : 0.0,
 			"wcoy"       : 0.0,
 			"wcoz"       : 0.0,
@@ -3638,9 +3638,9 @@ class GCode:
 		self.addUndo(undoinfo)
 
 	#----------------------------------------------------------------------
-	# Move position by dx,dy,dz,de
+	# Move position by dx,dy,dz,dc
 	#----------------------------------------------------------------------
-	def moveFunc(self, new, old, dx, dy, dz, de):
+	def moveFunc(self, new, old, dx, dy, dz, dc):
 		changed = False
 		if 'X' in new:
 			changed = True
@@ -3653,7 +3653,7 @@ class GCode:
 			new['Z'] += dz
 		if 'E' in new:
 			changed = True
-			new['E'] += de
+			new['C'] += de
 		return changed
 
 	#----------------------------------------------------------------------
@@ -3666,10 +3666,10 @@ class GCode:
 			pass
 
 	#----------------------------------------------------------------------
-	# Move position by dx,dy,dz,de
+	# Move position by dx,dy,dz,dc
 	#----------------------------------------------------------------------
-	def moveLines(self, items, dx, dy, dz=0.0, de=0.0):
-		return self.process(items, self.moveFunc, Tab.move, dx, dy, dz, de)
+	def moveLines(self, items, dx, dy, dz=0.0, dc=0.0):
+		return self.process(items, self.moveFunc, Tab.move, dx, dy, dz, dc)
 
 	#----------------------------------------------------------------------
 	# Rotate position by c(osine), s(ine) of an angle around center (x0,y0)
