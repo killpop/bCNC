@@ -216,9 +216,9 @@ class DROFrame(CNCRibbon.PageFrame):
 					justify=RIGHT)
 		self.cwork.grid(row=row,column=col,padx=1,sticky=EW)
 		tkExtra.Balloon.set(self.cwork, _("C work position (click to set)"))
-		self.ework.bind('<FocusIn>',  self.workFocus)
-		self.ework.bind('<Return>',   self.setC)
-		self.ework.bind('<KP_Enter>', self.setC)
+		self.cwork.bind('<FocusIn>',  self.workFocus)
+		self.cwork.bind('<Return>',   self.setC)
+		self.cwork.bind('<KP_Enter>', self.setC)
 
 		# Machine
 		row += 1
@@ -732,12 +732,12 @@ class ControlFrame(CNCRibbon.PageLabelFrame):
 		self.sendGCode("G91G0Z-%s"%(self.zstep.get()))
 		self.sendGCode("G90")
 
-	def moveEup(self, event=None):
+	def moveCup(self, event=None):
 		if event is not None and not self.acceptKey(): return
 		self.sendGCode("G91G0E%s"%(self.zstep.get()))
 		self.sendGCode("G90")
 
-	def moveEdown(self, event=None):
+	def moveCdown(self, event=None):
 		if event is not None and not self.acceptKey(): return
 		self.sendGCode("G91G0E-%s"%(self.zstep.get()))
 		self.sendGCode("G90")
