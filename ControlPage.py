@@ -208,17 +208,17 @@ class DROFrame(CNCRibbon.PageFrame):
 
 		# ---
 		col += 1
-		self.ework = tkExtra.FloatEntry(self,
+		self.cwork = tkExtra.FloatEntry(self,
 					font=DROFrame.dro_wpos,
 					background="White",
 					relief=FLAT,
 					borderwidth=0,
 					justify=RIGHT)
-		self.ework.grid(row=row,column=col,padx=1,sticky=EW)
-		tkExtra.Balloon.set(self.ework, _("E work position (click to set)"))
+		self.cwork.grid(row=row,column=col,padx=1,sticky=EW)
+		tkExtra.Balloon.set(self.cwork, _("C work position (click to set)"))
 		self.ework.bind('<FocusIn>',  self.workFocus)
-		self.ework.bind('<Return>',   self.setE)
-		self.ework.bind('<KP_Enter>', self.setE)
+		self.ework.bind('<Return>',   self.setC)
+		self.ework.bind('<KP_Enter>', self.setC)
 
 		# Machine
 		row += 1
@@ -238,8 +238,8 @@ class DROFrame(CNCRibbon.PageFrame):
 		self.zmachine.grid(row=row,column=col,padx=1,sticky=EW)
 
 		col += 1
-		self.emachine = Label(self, font=DROFrame.dro_mpos, background="White", anchor=E)
-		self.emachine.grid(row=row,column=col,padx=1,sticky=EW)
+		self.cmachine = Label(self, font=DROFrame.dro_mpos, background="White", anchor=E)
+		self.cmachine.grid(row=row,column=col,padx=1,sticky=EW)
 
 		# Set buttons
 		row += 1
@@ -272,13 +272,13 @@ class DROFrame(CNCRibbon.PageFrame):
 		self.addWidget(self.zzero)
 
 		col += 1
-		self.ezero = Button(self, text="E=0",
-				command=self.setE0,
+		self.czero = Button(self, text="C=0",
+				command=self.setC0,
 				activebackground="LightYellow",
 				padx=2, pady=1)
-		self.ezero.grid(row=row, column=col, pady=0, sticky=EW)
-		tkExtra.Balloon.set(self.ezero, _("Set E coordinate to zero (or to typed coordinate in WPos)"))
-		self.addWidget(self.ezero)
+		self.czero.grid(row=row, column=col, pady=0, sticky=EW)
+		tkExtra.Balloon.set(self.czero, _("Set C coordinate to zero (or to typed coordinate in WPos)"))
+		self.addWidget(self.czero)
 
 		# Set buttons
 		row += 1
@@ -346,14 +346,14 @@ class DROFrame(CNCRibbon.PageFrame):
 		if focus is not self.zwork:
 			self.zwork.delete(0,END)
 			self.zwork.insert(0,self.padFloat(CNC.drozeropad,CNC.vars["wz"]))
-		if focus is not self.ework:
-			self.ework.delete(0,END)
-			self.ework.insert(0,self.padFloat(CNC.drozeropad,CNC.vars["we"]))
+		if focus is not self.cwork:
+			self.cwork.delete(0,END)
+			self.cwork.insert(0,self.padFloat(CNC.drozeropad,CNC.vars["wc"]))
 
 		self.xmachine["text"] = self.padFloat(CNC.drozeropad,CNC.vars["mx"])
 		self.ymachine["text"] = self.padFloat(CNC.drozeropad,CNC.vars["my"])
 		self.zmachine["text"] = self.padFloat(CNC.drozeropad,CNC.vars["mz"])
-		self.emachine["text"] = self.padFloat(CNC.drozeropad,CNC.vars["me"])
+		self.cmachine["text"] = self.padFloat(CNC.drozeropad,CNC.vars["mc"])
 
 	#----------------------------------------------------------------------
 	def padFloat(self, decimals, value):
@@ -382,7 +382,7 @@ class DROFrame(CNCRibbon.PageFrame):
 		self._wcsSet(None,None,"0")
 
 	#----------------------------------------------------------------------
-	def setE0(self, event=None):
+	def setC0(self, event=None):
 		self._wcsSet(None,None,None,"0")
 
 	#----------------------------------------------------------------------
@@ -413,20 +413,20 @@ class DROFrame(CNCRibbon.PageFrame):
 			pass
 
 	#----------------------------------------------------------------------
-	def setE(self, event=None):
+	def setC(self, event=None):
 		if self.app.running: return
 		try:
-			value = float(eval(self.ework.get(),CNC.vars,self.app.gcode.vars))
+			value = float(eval(self.cwork.get(),CNC.vars,self.app.gcode.vars))
 			self._wcsSet(None,None,None,value)
 		except:
 			pass
 
 	#----------------------------------------------------------------------
-	def wcsSet(self, x, y, z, e=None):
-		self._wcsSet(x, y, z, e)
+	def wcsSet(self, x, y, z, c=None):
+		self._wcsSet(x, y, z, c)
 
 	#----------------------------------------------------------------------
-	def _wcsSet(self, x, y, z, e=None):
+	def _wcsSet(self, x, y, z, c=None):
 		global wcsvar
 		p = wcsvar.get()
 		if p<6:
@@ -442,7 +442,7 @@ class DROFrame(CNCRibbon.PageFrame):
 		if x is not None: pos += "X"+str(x)
 		if y is not None: pos += "Y"+str(y)
 		if z is not None: pos += "Z"+str(z)
-		if e is not None: pos += "E"+str(e)
+		if c is not None: pos += "c"+str(c)
 		cmd += pos
 		self.sendGCode(cmd)
 		self.sendGCode("$#")
